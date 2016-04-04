@@ -1,6 +1,6 @@
 {
   "name": "react-virtual-scroller",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A virtual scroller container for React",
   "main": "lib/index.js",
   "scripts": {
