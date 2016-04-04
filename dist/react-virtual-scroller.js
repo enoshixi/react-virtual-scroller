@@ -129,7 +129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return function (scrollPos, event) {
 
-	    var domNode = orientation == 'horizontal' ? this.getHorizontalScrollbarNode() : this.getVerticalScrollbarNode();
+	    var domNode = orientation == 'horizontal' ? this.horizontalScrollbarNode : this.verticalScrollbarNode;
 	    var scrollPosName = orientation == 'horizontal' ? 'scrollLeft' : 'scrollTop';
 	    var overflowCallback;
 
@@ -374,32 +374,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'fixHorizontalScrollbar',
 	    value: function fixHorizontalScrollbar() {
-
-	      var thisNode = (0, _reactDom.findDOMNode)(this);
-
-	      if (!thisNode) {
-	        return;
+	      if (this.horizontalScrollerNode) {
+	        var height = this.horizontalScrollerNode.style.height;
+	        this.horizontalScrollerNode.style.height = height == '0.2px' ? '0.1px' : '0.2px';
 	      }
-
-	      this.horizontalScrollerNode = this.horizontalScrollerNode || thisNode.querySelector('.z-horizontal-scroller');
-
-	      var dom = this.horizontalScrollerNode;
-
-	      if (dom) {
-	        var height = dom.style.height;
-
-	        dom.style.height = height == '0.2px' ? '0.1px' : '0.2px';
-	      }
-	    }
-	  }, {
-	    key: 'getVerticalScrollbarNode',
-	    value: function getVerticalScrollbarNode() {
-	      return this.verticalScrollbarNode = this.verticalScrollbarNode || (0, _reactDom.findDOMNode)(this).querySelector('.ref-verticalScrollbar');
-	    }
-	  }, {
-	    key: 'getHorizontalScrollbarNode',
-	    value: function getHorizontalScrollbarNode() {
-	      return this.horizontalScrollbarNode = this.horizontalScrollbarNode || (0, _reactDom.findDOMNode)(this).querySelector('.ref-horizontalScrollbar');
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -417,6 +395,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'renderVerticalScrollbar',
 	    value: function renderVerticalScrollbar(props) {
+	      var _this = this;
+
 	      var height = props.scrollHeight;
 	      var verticalScrollbarStyle = {
 	        width: props.scrollbarSize
@@ -430,7 +410,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _react2['default'].createElement(
 	          'div',
 	          {
-	            className: 'ref-verticalScrollbar',
+	            ref: function (n) {
+	              return _this.verticalScrollbarNode = n;
+	            },
 	            onScroll: onScroll,
 	            style: { overflow: 'auto', width: '100%', height: '100%' }
 	          },
@@ -441,12 +423,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'renderHorizontalScrollbar',
 	    value: function renderHorizontalScrollbar(props) {
+	      var _this2 = this;
+
 	      var scrollbar;
 	      var onScroll = this.onHorizontalScroll;
 	      var style = horizontalScrollbarStyle;
 	      var minWidth = props.scrollWidth;
 
-	      var scroller = _react2['default'].createElement('div', { xref: 'horizontalScroller', className: 'z-horizontal-scroller', style: { width: minWidth } });
+	      var scroller = _react2['default'].createElement('div', {
+	        className: 'z-horizontal-scroller',
+	        style: { width: minWidth },
+	        ref: function (n) {
+	          return _this2.horizontalScrollerNode = n;
+	        } });
 
 	      if (IS_MAC) {
 	        //needed for mac safari
@@ -460,7 +449,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            'div',
 	            {
 	              onScroll: onScroll,
-	              className: 'ref-horizontalScrollbar z-horizontal-scrollbar-fix'
+	              className: 'z-horizontal-scrollbar-fix',
+	              ref: function (n) {
+	                return _this2.horizontalScrollbarNode = n;
+	              }
 	            },
 	            scroller
 	          )
@@ -470,7 +462,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'div',
 	          {
 	            style: style,
-	            className: 'ref-horizontalScrollbar z-horizontal-scrollbar',
+	            className: 'z-horizontal-scrollbar',
+	            ref: function (n) {
+	              return _this2.horizontalScrollbarNode = n;
+	            },
 	            onScroll: onScroll
 	          },
 	          scroller

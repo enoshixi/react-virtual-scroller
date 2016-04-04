@@ -48,7 +48,7 @@ const syncScrollbar = function(orientation) {
 
   return function(scrollPos, event){
 
-    var domNode       = orientation == 'horizontal'? this.getHorizontalScrollbarNode(): this.getVerticalScrollbarNode()
+    var domNode       = orientation == 'horizontal'? this.horizontalScrollbarNode: this.verticalScrollbarNode
     var scrollPosName = orientation == 'horizontal'? 'scrollLeft': 'scrollTop'
     var overflowCallback
 
@@ -279,30 +279,10 @@ class Scroller extends Component {
   }
 
   fixHorizontalScrollbar() {
-
-    const thisNode = findDOMNode(this)
-
-    if (!thisNode){
-      return
+    if (this.horizontalScrollerNode){
+      const height = this.horizontalScrollerNode.style.height
+      this.horizontalScrollerNode.style.height = height == '0.2px'? '0.1px': '0.2px'
     }
-
-    this.horizontalScrollerNode = this.horizontalScrollerNode || thisNode.querySelector('.z-horizontal-scroller')
-
-    const dom = this.horizontalScrollerNode
-
-    if (dom){
-      const height = dom.style.height
-
-      dom.style.height = height == '0.2px'? '0.1px': '0.2px'
-    }
-  }
-
-  getVerticalScrollbarNode(){
-    return this.verticalScrollbarNode = this.verticalScrollbarNode || findDOMNode(this).querySelector('.ref-verticalScrollbar')
-  }
-
-  getHorizontalScrollbarNode(){
-    return this.horizontalScrollbarNode = this.horizontalScrollbarNode || findDOMNode(this).querySelector('.ref-horizontalScrollbar')
   }
 
   componentWillUnmount(){
@@ -326,7 +306,7 @@ class Scroller extends Component {
 
     return <div className="z-vertical-scrollbar" style={verticalScrollbarStyle}>
         <div
-          className="ref-verticalScrollbar"
+          ref={n => this.verticalScrollbarNode = n}
           onScroll={onScroll}
           style={{overflow: 'auto', width: '100%', height: '100%'}}
         >
@@ -341,7 +321,10 @@ class Scroller extends Component {
     var style    = horizontalScrollbarStyle
     var minWidth = props.scrollWidth
 
-    var scroller = <div xref="horizontalScroller" className="z-horizontal-scroller" style={{width: minWidth}} />
+    var scroller = <div
+      className="z-horizontal-scroller"
+      style={{width: minWidth}}
+      ref={n => this.horizontalScrollerNode = n}/>
 
     if (IS_MAC){
         //needed for mac safari
@@ -351,7 +334,8 @@ class Scroller extends Component {
         >
           <div
             onScroll={onScroll}
-            className="ref-horizontalScrollbar z-horizontal-scrollbar-fix"
+            className="z-horizontal-scrollbar-fix"
+            ref={n => this.horizontalScrollbarNode = n}
           >
               {scroller}
           </div>
@@ -359,7 +343,8 @@ class Scroller extends Component {
     } else {
         scrollbar = <div
           style={style}
-          className="ref-horizontalScrollbar z-horizontal-scrollbar"
+          className="z-horizontal-scrollbar"
+          ref={n => this.horizontalScrollbarNode = n}
           onScroll={onScroll}
         >
           {scroller}
