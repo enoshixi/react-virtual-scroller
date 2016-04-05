@@ -1,5 +1,5 @@
 {
-  "name": "react-virtual-scroller",
+  "name": "@janv/react-virtual-scroller",
   "version": "2.0.0",
   "description": "A virtual scroller container for React",
   "main": "lib/index.js",
