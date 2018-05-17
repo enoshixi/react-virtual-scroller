@@ -5,14 +5,13 @@ import { render } from 'react-dom'
 import Scroller from './src'
 
 require('./index.styl')
-require('react-load-mask/index.styl')
 
 const App = class extends React.Component {
 
-	render(){
+	render() {
 		return <div>
 			<Scroller
-				style={{border: '1px solid red', width: 400}}
+				style={{ border: '1px solid red', width: 400 }}
 				height={500}
 				xsloading={true}
 				scrollHeight={10000}

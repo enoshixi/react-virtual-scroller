@@ -43,6 +43,7 @@
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "style-loader": "^0.12.1",
+    "stylus": "^0.54.5",
     "stylus-loader": "^1.1.0",
     "webpack": "^1.8.10",
     "webpack-dev-server": "^1.8.2"
@@ -51,8 +52,8 @@
     "drag-helper": "^1.2.3",
     "has-touch": "^1.0.1",
     "object-assign": "^4.0.1",
+    "prop-types": "^15.6.1",
     "react-class": "^1.1.2",
-    "react-load-mask": "^1.0.1",
     "react-style-normalizer": "^1.2.7"
   },
   "peerDependencies": {
